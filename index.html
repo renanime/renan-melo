@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Reserva - Novo PL</title>
+
+    <style>
+      h1{color:rgb(251, 251, 253);border:1px solid #faf8f8}
+      p{color:rgb(244, 245, 248);font-size:20px;font-style:italic}
+    </style>
+    <STYLE TYPE="text/css">
+      .back-text {background-color: #08080a; text-align: center;}
+    </STYLE>
+    
+</head>
+<body class="bg">
+
+  
+  <div> 
+    <h1 class="titulo-central">Calculadora Reserva - Novo PL</h1>
+    <p class="titulo-central">Você poderá calcular o tempo em dias e a data para a sua tão sonhada RESERVA!!!</p>
+    <form class="texto-central" name="form_main">
+        <label for="date_praca"><FONT CLASS="back-text">Data de Praça:</FONT> </label> 
+        <input name="date_praca" id="date_praca" type="date"> <br><br>
+
+        <label for="date_Hoje"><FONT CLASS="back-text">Data Hoje: </FONT></label> 
+        <input name="date_Hoje" id="date_Hoje" type="date"> <br><br>
+
+        <label for="date_Pedagio"><FONT CLASS="back-text">Data do Pedágio PL 2019 (16/12/19):</FONT> </label> 
+        <input name="date_Pedagio" id="date_Pedagio" type="date"> <br><br>
+
+        <label for="date_NovoPL"><FONT CLASS="back-text">Data do Novo PL (01/01/25):</FONT> </label> 
+        <input name="date_NovoPL" id="date_NovoPL" type="date"> <br><br>
+
+        <label for="tempo_extra"><FONT CLASS="back-text">Tempo Extra em dias:</FONT> </label> 
+        <input name="tempo_extra" id="tempo_extra" type="number"> <br><br>
+      
+         <label for="TA"><FONT CLASS="back-text">Tempo de Serviço Atual (dias):</FONT> </label> 
+        <span CLASS="back-text" id="TA"></span> <br><br>
+
+        <label for="PE"><FONT CLASS="back-text">Pedágio PL 2019:</FONT> </label> 
+        <span CLASS="back-text" id="PE"></span> <br><br>
+
+        <label for="DTR"><FONT CLASS="back-text">Data para Reserva PL 2019: </FONT></label> 
+        <span CLASS="back-text" id="DTR"></span> <br><br>
+
+        <label for="PENPL"><FONT CLASS="back-text">Pedágio Novo PL:</FONT> </label> 
+        <span CLASS="back-text" id="PENPL"></span> <br><br>
+
+        <label for="DTRNPL"><FONT CLASS="back-text">Data para Reserva com Novo PL: </FONT></label> 
+        <span CLASS="back-text" id="DTRNPL"></span> <br><br>
+      
+        <button class="bt bt-vd" type="button" onclick="countDays()">Calcular</button>
+      </form>
+    </div> <br>
+        
+
+    
+
+
+    <script>
+    const second = 1000;
+const minute = second * 60;
+const hour = minute * 60;
+const day = hour * 24;
+
+function countDays() {
+  let date_praca = new Date(document.form_main.date_praca.value);
+  let date_Pedagio = new Date(document.form_main.date_Pedagio.value);
+  let date_NovoPL = new Date(document.form_main.date_NovoPL.value);
+  let tempo_extra = new Number(document.form_main.tempo_extra.value);
+  let date_Hoje = new Date(document.form_main.date_Hoje.value);
+
+  let diff = date_Pedagio.getTime() - date_praca.getTime();
+  let diff2 = diff/day + tempo_extra + Number(1);
+  let diff3 = (Number(10950) - diff2) * Number(0.17);
+  let diff4 = (Number(10950) + diff3);
+  let diff5 = date_Hoje.getTime() - date_praca.getTime();
+  let diff6 = diff5/day + tempo_extra + Number(1);
+  let diff7 = diff4 - diff6;
+  let diff8 = date_Hoje.getTime() + diff7*day;
+  let diff9 = new Date(diff8);
+  dataFormatada = diff9.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+  let diff10 = date_NovoPL.getTime();
+let diff11 = (diff8/day - (diff10/day))*Number(0.09);
+  let diff12 = diff11*day+diff8;
+let diff13 = new Date(diff12);
+dataFormatadaPL = diff13.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
+
+   
+  document.getElementById('PE').innerText = Math.round(diff3);
+    document.getElementById('TA').innerText = Math.round(diff6);
+    document.getElementById('DTR').innerText = dataFormatada;
+  document.getElementById('PENPL').innerText = Math.round(diff11);
+  document.getElementById('DTRNPL').innerText = dataFormatadaPL;
+}
+
+    </script>
+</body>
+</html>
